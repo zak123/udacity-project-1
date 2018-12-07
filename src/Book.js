@@ -3,11 +3,16 @@ import './App.css'
 import {update} from "./BooksAPI";
 
 export class Book extends React.Component {
+    constructor(props) {
+        super(props);
+        this.updateBook = this.updateBook.bind(this);
+    }
 
-    updateBook(shelf) {
-        console.log(shelf);
 
-        update(this.props.data, shelf).then(res => {
+    updateBook(event) {
+        console.log(event.target.value);
+
+        update(this.props.data, event.target.value).then(res => {
             console.log(res);
             this.props.refresh();
         });
@@ -15,20 +20,33 @@ export class Book extends React.Component {
     }
 
     render() {
-        const renderAuthors = this.props.data['authors'].map((author) => (
-            <div key={author} className="book-authors">{author}</div>
-        ));
+        let renderAuthors = null;
+        if (this.props.data['authors']) {
+            renderAuthors = this.props.data['authors'].map((author) => (
+                <div key={author} className="book-authors">{author}</div>
+            ));
+        } else {
+            renderAuthors = <p className='book-authors'>No Author Found</p>
+        }
+
+        let renderCover = null;
+        if (this.props.data['imageLinks']) {
+            if (this.props.data['imageLinks']['smallThumbnail']) {
+                renderCover = <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.data['imageLinks']['smallThumbnail']})` }}></div>;
+            }
+        }
+
         return (
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.data['imageLinks']['smallThumbnail']})` }}></div>
+                    {renderCover}
                     <div className="book-shelf-changer">
-                        <select>
+                        <select onChange={this.updateBook} value={this.props.data['shelf']}>
                             <option value="move">Move to...</option>
-                            <option value="currentlyReading" onClick={() => this.updateBook('currentlyReading')}>Currently Reading</option>
-                            <option value="wantToRead" onClick={() => this.updateBook('wantToRead')}>Want to Read</option>
-                            <option value="read" onClick={() => this.updateBook('read')}>Read</option>
-                            <option value="none" onClick={() => this.updateBook('none')}>None</option>
+                            <option value="currentlyReading">Currently Reading</option>
+                            <option value="wantToRead">Want to Read</option>
+                            <option value="read">Read</option>
+                            <option value="none">None</option>
                         </select>
                     </div>
                 </div>

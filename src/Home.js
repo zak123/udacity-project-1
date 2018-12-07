@@ -4,10 +4,6 @@ import {Book} from "./Book";
 
 
 export class CurrentlyReading extends React.Component {
-    state = {
-        books: this.props.books,
-    };
-
     render() {
         const renderBooks = this.props.books.map((book) => (
             <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
@@ -26,10 +22,6 @@ export class CurrentlyReading extends React.Component {
 }
 
 export class WantToRead extends React.Component {
-    state = {
-        books: this.props.books,
-    };
-
     render() {
         const renderBooks = this.props.books.map((book) => (
             <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
@@ -48,10 +40,6 @@ export class WantToRead extends React.Component {
 }
 
 export class Read extends React.Component {
-    state = {
-        books: this.props.books,
-    };
-
     render() {
         const renderBooks = this.props.books.map((book) => (
             <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
