@@ -20,21 +20,11 @@ export class Book extends React.Component {
     }
 
     render() {
-        let renderAuthors = null;
-        if (this.props.data['authors']) {
-            renderAuthors = this.props.data['authors'].map((author) => (
-                <div key={author} className="book-authors">{author}</div>
-            ));
-        } else {
-            renderAuthors = <p className='book-authors'>No Author Found</p>
-        }
+        let renderAuthors = this.props.data['authors'] ? this.props.data['authors'].map((author) => (
+            <div key={author} className="book-authors">{author}</div>
+        )) : <p className='book-authors'>No Author Found</p>;
 
-        let renderCover = null;
-        if (this.props.data['imageLinks']) {
-            if (this.props.data['imageLinks']['smallThumbnail']) {
-                renderCover = <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.data['imageLinks']['smallThumbnail']})` }}></div>;
-            }
-        }
+        let renderCover = this.props.data['imageLinks'] && this.props.data['imageLinks']['smallThumbnail'] ? <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.data['imageLinks']['smallThumbnail']})` }}></div> : null;
 
         return (
             <div className="book">

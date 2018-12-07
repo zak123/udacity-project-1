@@ -52,19 +52,10 @@ export class SearchComponent extends React.Component {
 }
 
 export class SearchResults extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
-        let renderBooks = null;
-        if (Array.isArray(this.props.books)) {
-            renderBooks = this.props.books.map((book) => (
-                <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
-            ));
-        } else {
-            renderBooks = <p>No search results found.</p>
-        }
-
+        let renderBooks = Array.isArray(this.props.books) ? this.props.books.map((book) => (
+            <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
+        )) : <p>No results found.</p>;
 
         return (
             <div className="search-books-results">
