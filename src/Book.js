@@ -14,7 +14,6 @@ export class Book extends React.Component {
 
         update(this.props.data, event.target.value).then(res => {
             console.log(res);
-            this.props.refresh();
         });
 
     }

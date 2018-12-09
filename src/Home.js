@@ -5,9 +5,14 @@ import {Book} from "./Book";
 
 export class CurrentlyReading extends React.Component {
     render() {
-        const renderBooks = this.props.books.map((book) => (
-            <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
-        ));
+
+        let renderBooks = null;
+        if (this.props.books) {
+            renderBooks = this.props.books.map((book) => (
+                <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
+            ));
+        }
+
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">Currently Reading</h2>
@@ -23,9 +28,12 @@ export class CurrentlyReading extends React.Component {
 
 export class WantToRead extends React.Component {
     render() {
-        const renderBooks = this.props.books.map((book) => (
-            <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
-        ));
+        let renderBooks = null;
+        if (this.props.books) {
+            renderBooks = this.props.books.map((book) => (
+                <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
+            ));
+        }
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">Want to Read</h2>
@@ -41,9 +49,12 @@ export class WantToRead extends React.Component {
 
 export class Read extends React.Component {
     render() {
-        const renderBooks = this.props.books.map((book) => (
-            <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
-        ));
+        let renderBooks = null;
+        if (this.props.books) {
+            renderBooks = this.props.books.map((book) => (
+                <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
+            ));
+        }
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">Read</h2>

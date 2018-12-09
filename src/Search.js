@@ -17,6 +17,15 @@ export class SearchComponent extends React.Component {
 
     handleSearch(event) {
         search(event.target.value).then(res => {
+
+            res.forEach(book => {
+                this.props.data.forEach(savedBook => {
+                    if (book['id'] === savedBook['id']) {
+                        book['shelf'] = savedBook['shelf'];
+                    }
+                })
+            });
+
             console.log(res);
             this.setState({
                 searchResults: res,
@@ -56,6 +65,8 @@ export class SearchResults extends React.Component {
         let renderBooks = Array.isArray(this.props.books) ? this.props.books.map((book) => (
             <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
         )) : <p>No results found.</p>;
+
+
 
         return (
             <div className="search-books-results">

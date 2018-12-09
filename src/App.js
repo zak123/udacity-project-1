@@ -9,39 +9,23 @@ class BooksApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showSearchPage: false,
-            currentlyReadingBooks: [],
-            wantToReadBooks: [],
-            readBooks: [],
+            currentlyReadingBooks: this.props.data.filter(obj => obj['shelf'] === 'currentlyReading'),
+            wantToReadBooks: this.props.data.filter(obj => obj['shelf'] === 'wantToRead'),
+            readBooks: this.props.data.filter(obj => obj['shelf'] === 'read'),
+            data: this.props.data,
         };
 
 
     }
 
 
-
-
   componentDidMount() {
     console.log('hello udacity');
-    this.refreshBooks();
   }
-
-  refreshBooks = () => {
-      console.log('state update');
-
-      getAll().then( res => {
-          console.log(res);
-          this.setState(() => ({
-              currentlyReadingBooks: res.filter(obj => obj['shelf'] === 'currentlyReading'),
-              wantToReadBooks: res.filter(obj => obj['shelf'] === 'wantToRead'),
-              readBooks: res.filter(obj => obj['shelf'] === 'read'),
-          }));
-      });
-  };
-
 
   render() {
 
+      console.log('render booksapp', this.props.data);
 
     return (
       <div className="app">
@@ -68,12 +52,39 @@ class BooksApp extends React.Component {
 }
 
 class router extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+            data: [],
+        };
+
+
+    }
+
+    componentDidMount() {
+        console.log('hello udacity');
+        this.refreshBooks();
+    }
+
+    refreshBooks = () => {
+        console.log('state update');
+
+        getAll().then( res => {
+            console.log(res);
+            this.setState(() => ({
+
+                data: res,
+            }));
+        });
+    };
+
     render() {
         return (
         <BrowserRouter>
             <Switch>
-                <Route exact path='/' component={BooksApp}/>
-                <Route path='/search' component={SearchComponent}/>
+                <Route exact path='/' component={() => <BooksApp data={this.state.data}/>}/>
+                <Route path='/search' component={() => <SearchComponent data={this.state.data}/>}/>
             </Switch>
         </BrowserRouter>
         )
