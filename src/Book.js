@@ -1,22 +1,20 @@
 import React from 'react'
 import './App.css'
-import {update} from "./BooksAPI";
 
 export class Book extends React.Component {
     constructor(props) {
         super(props);
-        this.updateBook = this.updateBook.bind(this);
     }
 
 
-    updateBook(event) {
-        console.log(event.target.value);
+    handleUpdate = (e) => {
+        console.log(e.target.value);
 
-        update(this.props.data, event.target.value).then(res => {
-            console.log(res);
-        });
 
-    }
+
+        this.props.update(this.props.data, e.target.value);
+    };
+
 
     render() {
         let renderAuthors = this.props.data['authors'] ? this.props.data['authors'].map((author) => (
@@ -30,7 +28,7 @@ export class Book extends React.Component {
                 <div className="book-top">
                     {renderCover}
                     <div className="book-shelf-changer">
-                        <select onChange={this.updateBook} value={this.props.data['shelf']}>
+                        <select onChange={this.handleUpdate} value={this.props.data['shelf']}>
                             <option value="move">Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>

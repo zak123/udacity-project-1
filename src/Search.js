@@ -53,7 +53,7 @@ export class SearchComponent extends React.Component {
 
                     </div>
                 </div>
-                <SearchResults books={this.state.searchResults}/>
+                <SearchResults books={this.state.searchResults} update={this.props.update}/>
             </div>
         )
     }
@@ -63,7 +63,7 @@ export class SearchComponent extends React.Component {
 export class SearchResults extends React.Component {
     render() {
         let renderBooks = Array.isArray(this.props.books) ? this.props.books.map((book) => (
-            <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
+            <li key={book['id']}><Book data={book} update={this.props.update}/></li>
         )) : <p>No results found.</p>;
 
 

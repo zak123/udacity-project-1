@@ -2,7 +2,7 @@ import React  from 'react'
 import './App.css'
 import {CurrentlyReading, WantToRead, Read} from './Home'
 import {SearchComponent} from "./Search";
-import {getAll} from "./BooksAPI";
+import {getAll, update} from "./BooksAPI";
 import { Route, Switch, BrowserRouter, Link } from 'react-router-dom';
 
 class BooksApp extends React.Component {
@@ -20,7 +20,7 @@ class BooksApp extends React.Component {
 
 
   componentDidMount() {
-    console.log('hello udacity');
+    console.log('props', this.props);
   }
 
   render() {
@@ -35,14 +35,14 @@ class BooksApp extends React.Component {
               </div>
             <div className="list-books-content">
               <div>
-                  <CurrentlyReading books={this.state.currentlyReadingBooks} refresh={this.refreshBooks}/>
-                  <WantToRead books={this.state.wantToReadBooks} refresh={this.refreshBooks}/>
-                  <Read books={this.state.readBooks} refresh={this.refreshBooks}/>
+                  <CurrentlyReading books={this.state.currentlyReadingBooks} update={this.props.update}/>
+                  <WantToRead books={this.state.wantToReadBooks} update={this.props.update}/>
+                  <Read books={this.state.readBooks} update={this.props.update}/>
               </div>
             </div>
             <div className="open-search">
                 <Link to='/search'>
-                  <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+                  <button>Add a book</button>
                 </Link>
             </div>
           </div>
@@ -79,12 +79,27 @@ class router extends React.Component {
         });
     };
 
+
+    updateBook = (book, shelf) => {
+        console.log(book, shelf);
+
+        update(book, shelf).then(res => {
+
+            let newState = this.state.data.filter(obj => obj['id'] !== book['id']);
+            book['shelf'] = shelf;
+            newState.push(book);
+            this.setState({
+                data: newState,
+            });
+        });
+    };
+
     render() {
         return (
         <BrowserRouter>
             <Switch>
-                <Route exact path='/' component={() => <BooksApp data={this.state.data}/>}/>
-                <Route path='/search' component={() => <SearchComponent data={this.state.data}/>}/>
+                <Route exact path='/' component={() => <BooksApp data={this.state.data} update={this.updateBook}/>}/>
+                <Route path='/search' component={() => <SearchComponent data={this.state.data} update={this.updateBook}/>}/>
             </Switch>
         </BrowserRouter>
         )

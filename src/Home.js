@@ -9,7 +9,7 @@ export class CurrentlyReading extends React.Component {
         let renderBooks = null;
         if (this.props.books) {
             renderBooks = this.props.books.map((book) => (
-                <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
+                <li key={book['id']}><Book data={book} update={this.props.update}/></li>
             ));
         }
 
@@ -31,7 +31,7 @@ export class WantToRead extends React.Component {
         let renderBooks = null;
         if (this.props.books) {
             renderBooks = this.props.books.map((book) => (
-                <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
+                <li key={book['id']}><Book data={book} update={this.props.update}/></li>
             ));
         }
         return (
@@ -52,7 +52,7 @@ export class Read extends React.Component {
         let renderBooks = null;
         if (this.props.books) {
             renderBooks = this.props.books.map((book) => (
-                <li key={book['id']}><Book data={book} refresh={this.props.refresh}/></li>
+                <li key={book['id']}><Book data={book} update={this.props.update}/></li>
             ));
         }
         return (
