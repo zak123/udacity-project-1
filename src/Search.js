@@ -17,19 +17,22 @@ export class SearchComponent extends React.Component {
 
     handleSearch(event) {
         search(event.target.value).then(res => {
-
-            res.forEach(book => {
-                this.props.data.forEach(savedBook => {
-                    if (book['id'] === savedBook['id']) {
-                        book['shelf'] = savedBook['shelf'];
-                    }
-                })
-            });
-
             console.log(res);
-            this.setState({
+            if (res !== undefined && !res['error']) {
+              res.forEach(book => {
+                this.props.data.forEach(savedBook => {
+                  if (book['id'] === savedBook['id']) {
+                    book['shelf'] = savedBook['shelf'];
+                  }
+                })
+              });
+
+              console.log(res);
+              this.setState({
                 searchResults: res,
-            });
+              });
+            }
+
         });
     }
 
